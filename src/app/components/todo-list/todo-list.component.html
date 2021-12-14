@@ -1,0 +1,29 @@
+
+
+<h2>{{todoList.listName}}</h2>
+
+<p *ngIf="!todoList.items.length">Ningún item en la lista</p>
+
+<div *ngFor="let item of todoList.items" class="todo-item">
+  <div>
+    <input type="checkbox" id="scales" name="scales" [checked]="item.isComplete"
+      (change)="completeTodoOnClick(item.todoName, $event)">
+    <span>{{item.todoName}}</span>
+  </div>
+  <div>
+    <button class="edit-button" (click)="openEdit(item.todoName)">Editar</button>
+    <button class="delete-button" (click)="deleteTodoOnClick(item.todoName)">Borrar</button>
+  </div>
+
+
+</div>
+
+<div class="edit-space" *ngIf="todoToEdit != ''">
+  <input class="my-input" [(ngModel)]="editedTodo">
+  <button class="my-button" (click)="editTodoOnClick()">Editar {{todoToEdit}}</button>
+</div>
+
+<div class="add-space">
+  <input placeholder="Nuevo Todo" class="my-input" [(ngModel)]="newTodo">
+  <button class="my-button" (click)="addNewTodoOnClick()">Agregar un Todo</button>
+</div>

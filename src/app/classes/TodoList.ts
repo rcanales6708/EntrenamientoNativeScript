@@ -38,7 +38,7 @@ export class ToDoList{
 
     if(this._items.find(item => item.todoName === newItem.todoName)){
 
-      alert(`El todo "${newItem.todoName}" ya existe en la lista "${this._listName}"`);
+      throw new Error(`El todo "${newItem.todoName}" ya existe en la lista "${this._listName}"`);
 
     }else{
 
@@ -51,7 +51,7 @@ export class ToDoList{
 
     if(this._items.find(item => item.todoName === todoNewName)){
 
-      alert(`El todo "${todoNewName}" ya existe en la lista "${this._listName}"`);
+      throw new Error(`El todo "${todoNewName}" ya existe en la lista "${this._listName}"`);
       return;
 
     }
@@ -64,7 +64,7 @@ export class ToDoList{
 
     }else{
 
-      alert(`El todo "${todoName}" no existe en la lista "${this._listName}"`);
+      throw new Error(`El todo "${todoName}" no existe en la lista "${this._listName}"`);
 
     }
 
@@ -79,7 +79,7 @@ export class ToDoList{
 
     }else{
 
-      alert(`El todo "${todoName}" no existe en la lista "${this._listName}"`);
+      throw new Error(`El todo "${todoName}" no existe en la lista "${this._listName}"`);
 
     }
 
@@ -95,7 +95,7 @@ export class ToDoList{
 
     }else{
 
-      alert(`El todo "${todoName}" no existe en la lista "${this._listName}"`);
+      throw new Error(`El todo "${todoName}" no existe en la lista "${this._listName}"`);
 
     }
 

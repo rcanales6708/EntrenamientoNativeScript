@@ -1,49 +1,3 @@
-
-.div-main{
-
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin: 0 20%;
-
-}
-
-.error-section{
-  margin: 10px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  color: red;
-  font-family: Arial, Helvetica, sans-serif;
-  h4{
-    margin: 0
-  }
-}
-
-.div-add-list{
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  width: 100%;
-}
-
-hr.divider {
-  border-top: 2px solid #bbb;
-  width: 100%;
-}
-
-
-
-
-
-app-todo-list{
-  width: 100%;
-  font-family: Arial, Helvetica, sans-serif;
-}
-
-
-
 .div-lists{
   width: 100%;
   font-family: Arial, Helvetica, sans-serif;
@@ -55,8 +9,6 @@ app-todo-list{
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-
-
 }
 
 .my-button{
@@ -152,4 +104,18 @@ app-todo-list{
       box-shadow: 0 0 0 0.25rem rgb(13 110 253 / 25%);
   }
 
+}
+
+.edit-space{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  width: 100%;
+  margin-bottom: 10px;
+}
+.add-space{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  width: 100%;
 }

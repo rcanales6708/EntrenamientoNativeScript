@@ -1,42 +1,29 @@
 
 <div class="div-main">
 
+  <div class="error-section">
+    <h4>{{errorMessage}}</h4>
+  </div>
 
   <div class="div-add-list">
 
+    <input class="my-input" [(ngModel)]="newTodoList">
     <button class="my-button" (click)="addNewListOnClick()">Agregar una Lista</button>
 
   </div>
-
-
 
   <hr class="divider">
 
   <div class="div-lists">
     <div class="list" *ngFor="let todoList of myLists">
-
-      <h2>{{todoList.listName}}</h2>
-
-      <p *ngIf="!todoList.items.length">Ningún item en la lista</p>
-
-      <div *ngFor="let item of todoList.items" class="todo-item">
-        <div>
-          <input type="checkbox" id="scales" name="scales" [checked]="item.isComplete"
-            (change)="completeTodoOnClick(todoList.listName, item.todoName, $event)">
-          <span>{{item.todoName}}</span>
-        </div>
-        <div>
-          <button class="edit-button" (click)="editTodoOnClick(todoList.listName, item.todoName)">Editar</button>
-          <button class="delete-button" (click)="deleteTodoOnClick(todoList.listName, item.todoName)">Borrar</button>
-        </div>
-
-
-      </div>
-
-      <button class="my-button" (click)="addNewTodoOnClick(todoList.listName)">Agregar un Todo</button>
-
+      <app-todo-list [todoList]="todoList"
+      (addTodoEvent)="addItemToTodoList($event.listName, $event.todoName)"
+      (deleteTodoEvent)="deleteItemFromTodoList($event.listName, $event.todoName)"
+      (editTodoEvent)="editItemOfTodoList($event.listName, $event.todoName, $event.newName)"
+      (completeTodoEvent)="markTodoAsCompleteIncomplete($event.listName, $event.todoName, $event.isComplete)"></app-todo-list>
     </div>
   </div>
+
 
 </div>
 

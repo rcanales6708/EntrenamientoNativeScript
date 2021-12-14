@@ -10,55 +10,20 @@ import { TodoItem } from './classes/TodoItem';
 export class AppComponent {
 
   myLists: ToDoList[] = [];
+  newTodoList: string = "";
+  errorMessage: string = "";
+
 
   /**
    * - Método para solicitar nombre de la lista y crearla
    */
   addNewListOnClick(){
 
-    const listName: string | null = prompt("Nombre de la lista");
-    this.createNewTodoList(listName);
+    this.createNewTodoList(this.newTodoList);
+
+    this.newTodoList = "";
 
   }
-
-  /**
-   * - Método para solicitar nombre del todo y crearlo
-   */
-  addNewTodoOnClick(todoListName: string){
-
-    const todoName: string | null = prompt("Nombre del Todo");
-    this.addItemToTodoList(todoListName, todoName);
-
-  }
-
-  /**
-   * - Método para solicitar el nuevo nombre del todo y editarlo
-   */
-  editTodoOnClick(listName: string, todoName: string){
-
-    const todoNewName: string | null = prompt("Nuevo nombre del Todo",todoName);
-    this.editItemOfTodoList(listName, todoName, todoNewName );
-
-  }
-
-  /**
-   * - Método para eliminar un Todo
-   */
-  deleteTodoOnClick(listName: string, todoName: string){
-
-    this.deleteItemFromTodoList(listName, todoName);
-
-  }
-
-  /**
-   * - Método para capturar el valor de checkbox y marcar un Todo completo/incompleto
-   */
-  completeTodoOnClick(listName: string, todoName: string, event: any){
-
-    this.markTodoAsCompleteIncomplete(listName, todoName, event.target.checked)
-
-  }
-
 
 
   /**
@@ -68,15 +33,15 @@ export class AppComponent {
 
     if(listName == "" || listName == undefined){
 
-        alert(`Se necesita un nombre para la lista.`);
-        return;
+      this.showError(`Se necesita un nombre para la lista.`)
+      return;
 
     }
 
     if(this.todoListExists(listName)){
 
-        alert(`La lista "${listName}" ya existe.`);
-        return;
+      this.showError(`La lista "${listName}" ya existe.`);
+      return;
 
     }
 
@@ -93,19 +58,25 @@ export class AppComponent {
 
     if(todoName == "" || todoName == undefined || listName == "" || listName == undefined){
 
-      alert(`Se necesita un nombre para la lista y el Todo.`);
+      this.showError(`Se necesita un nombre para el Todo.`);
       return;
 
     }
 
     if(this.todoListExists(listName)){
 
-      const todo = new TodoItem(todoName);
-      this.myLists.find(list => list.listName === listName )!.addItem(todo);
+      try {
+        const todo = new TodoItem(todoName);
+        this.myLists.find(list => list.listName === listName )!.addItem(todo);
+      }
+      catch(e: any) {
+        this.showError(e.message);
+      }
+
 
     }else{
 
-      alert(`La lista "${listName}" no existe.`);
+      this.showError(`La lista "${listName}" no existe.`);
 
     }
 
@@ -118,18 +89,23 @@ export class AppComponent {
 
     if(todoNewname == "" || todoNewname == undefined || todoName == "" || todoName == undefined || listName == "" || listName == undefined){
 
-      alert(`Se necesita un nombre para la lista, el Todo y el nuevo nombre.`);
+      this.showError(`Se necesita el nuevo nombre.`);
       return;
 
     }
 
     if(this.todoListExists(listName)){
 
-      this.myLists.find(list => list.listName === listName )!.editItem(todoName,todoNewname);
+      try {
+        this.myLists.find(list => list.listName === listName )!.editItem(todoName,todoNewname);
+      }
+      catch(e: any) {
+        this.showError(e.message);
+      }
 
     }else{
 
-      alert(`La lista "${listName}" no existe.`);
+      this.showError(`La lista "${listName}" no existe.`);
 
     }
   }
@@ -141,18 +117,23 @@ export class AppComponent {
 
     if(todoName == "" || todoName == undefined || listName == "" || listName == undefined){
 
-      alert(`Se necesita un nombre para la lista y el Todo.`);
+      this.showError(`Se necesita un nombre para el Todo.`);
       return;
 
     }
 
     if(this.todoListExists(listName)){
 
-      this.myLists.find(list => list.listName === listName )!.removeItem(todoName);
+      try {
+        this.myLists.find(list => list.listName === listName )!.removeItem(todoName);
+      }
+      catch(e: any) {
+        this.showError(e.message);
+      }
 
     }else{
 
-      alert(`La lista "${listName}" no existe.`);
+      this.showError(`La lista "${listName}" no existe.`);
 
     }
   }
@@ -164,17 +145,22 @@ export class AppComponent {
 
     if(todoName == "" || todoName == undefined || listName == "" || listName == undefined){
 
-        alert(`Se necesita un nombre para la lista y el Todo.`);
+        this.showError(`Se necesita un nombre para el Todo.`);
         return;
     }
 
     if(this.todoListExists(listName)){
 
+      try {
         this.myLists.find(list => list.listName === listName )!.markItemAsCompleteIncomplete(todoName, isComplete);
+      }
+      catch(e: any) {
+        this.showError(e.message);
+      }
 
     }else{
 
-        alert(`La lista "${listName}" no existe.`);
+        this.showError(`La lista "${listName}" no existe.`);
 
     }
   }
@@ -188,10 +174,15 @@ export class AppComponent {
 
   }
 
+  showError(errorMessage: string){
 
+    this.errorMessage = errorMessage;
 
+    setTimeout(() => {
+      this.errorMessage = "";
+    }, 3000);
 
-
+  }
 
 
 }
