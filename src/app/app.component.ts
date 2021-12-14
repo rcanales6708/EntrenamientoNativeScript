@@ -1,18 +1,35 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ToDoList } from './classes/TodoList';
 import { TodoItem } from './classes/TodoItem';
+import { Select, Store } from '@ngxs/store';
+import { AppState } from './states/app.state';
+import { Observable } from 'rxjs';
+import { SetTodoLists, GetTodoLists } from './actions/app.action';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
 
   myLists: ToDoList[] = [];
   newTodoList: string = "";
   errorMessage: string = "";
+  @Select(AppState.selectStateData) myLists$ : Observable<any>;
 
+  constructor(private store: Store){}
+
+  ngOnInit(): void {
+
+    this.store.dispatch(new GetTodoLists());
+
+    this.myLists$.subscribe((returnData) => {
+      this.myLists = returnData;
+      console.log(this.myLists);
+    })
+
+  }
 
   /**
    * - Método para solicitar nombre de la lista y crearla
@@ -24,7 +41,6 @@ export class AppComponent {
     this.newTodoList = "";
 
   }
-
 
   /**
    * - Método para crear una nueva lista de Todos
@@ -49,6 +65,8 @@ export class AppComponent {
 
     this.myLists.push(todoList);
 
+    this.store.dispatch(new SetTodoLists(this.myLists));
+
   }
 
   /**
@@ -68,6 +86,8 @@ export class AppComponent {
       try {
         const todo = new TodoItem(todoName);
         this.myLists.find(list => list.listName === listName )!.addItem(todo);
+
+        this.store.dispatch(new SetTodoLists(this.myLists));
       }
       catch(e: any) {
         this.showError(e.message);
@@ -98,6 +118,8 @@ export class AppComponent {
 
       try {
         this.myLists.find(list => list.listName === listName )!.editItem(todoName,todoNewname);
+
+        this.store.dispatch(new SetTodoLists(this.myLists));
       }
       catch(e: any) {
         this.showError(e.message);
@@ -125,7 +147,10 @@ export class AppComponent {
     if(this.todoListExists(listName)){
 
       try {
+
         this.myLists.find(list => list.listName === listName )!.removeItem(todoName);
+        this.store.dispatch(new SetTodoLists(this.myLists));
+
       }
       catch(e: any) {
         this.showError(e.message);
@@ -153,6 +178,8 @@ export class AppComponent {
 
       try {
         this.myLists.find(list => list.listName === listName )!.markItemAsCompleteIncomplete(todoName, isComplete);
+
+        this.store.dispatch(new SetTodoLists(this.myLists));
       }
       catch(e: any) {
         this.showError(e.message);
