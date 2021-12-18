@@ -1,26 +1,31 @@
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core'
+import { NativeScriptFormsModule, NativeScriptModule } from '@nativescript/angular'
 
-import { NgxsModule } from '@ngxs/store';
-
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { FormsModule } from '@angular/forms';
-import { TodoListComponent } from './components/todo-list/todo-list.component';
+import { AppRoutingModule } from './app-routing.module'
+import { AppComponent } from './app.component'
+import { ItemsComponent } from './item/items.component'
+import { ItemDetailComponent } from './item/item-detail.component'
+import { NgxsModule } from '@ngxs/store'
 import { AppState } from './states/app.state';
+import { HomeComponent } from './components/home/home.component';
+import { TodoListComponent } from './components/todo-list/todo-list.component';
 
 @NgModule({
+  bootstrap: [AppComponent],
+  imports: [
+    NativeScriptModule,
+    AppRoutingModule,
+    NgxsModule.forRoot([AppState]),
+    NativeScriptFormsModule
+  ],
   declarations: [
     AppComponent,
-    TodoListComponent
-  ],
-  imports: [
-    NgxsModule.forRoot([AppState]),
-    BrowserModule,
-    AppRoutingModule,
-    FormsModule
+    ItemsComponent,
+    ItemDetailComponent,
+    TodoListComponent,
+    HomeComponent,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  schemas: [NO_ERRORS_SCHEMA],
 })
-export class AppModule { }
+export class AppModule {}

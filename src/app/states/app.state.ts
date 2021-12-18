@@ -1,8 +1,8 @@
 import { Injectable } from "@angular/core";
 import { Action, Selector, State, StateContext } from "@ngxs/store";
-import { SetTodoLists, GetTodoLists } from '../actions/app.action';
-import { StorageServiceService } from '../services/storage-service.service';
+import { StorageService } from '../services/storage.service';
 import { ToDoList } from '../classes/TodoList';
+import { GetTodoLists, SetTodoLists } from "./app.actions";
 
 export class TodoListsStateModel {
   todoLists: any
@@ -18,14 +18,14 @@ export class TodoListsStateModel {
 @Injectable()
 export class AppState {
 
-  constructor (private storageService: StorageServiceService){}
+  constructor (private storageService: StorageService){}
 
   @Selector()
   static selectStateData(state:TodoListsStateModel){
     return state.todoLists;
   }
 
-  /**
+ /**
    * - Método para actualizar el STATE desde el storage
    */
   @Action(GetTodoLists)
@@ -59,14 +59,5 @@ export class AppState {
 
   }
 
-
-
 }
-
-
-
-
-
-
-
 

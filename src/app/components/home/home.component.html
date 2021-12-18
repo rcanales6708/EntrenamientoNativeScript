@@ -1,0 +1,36 @@
+<ActionBar title="Mis Listas Todo"> </ActionBar>
+
+<StackLayout>
+  <FlexboxLayout justifyContent="space-between">
+    <TextField
+      hint="Ingresa una Lista"
+      secure="false"
+      returnKeyType="done"
+      autocorrect="false"
+      maxLength="20"
+      [(ngModel)]="newTodoList"
+      width="50%"
+    >
+    </TextField>
+    <button
+      text="Agregar Lista!"
+      (tap)="addNewListOnClick()"
+      width="50%"
+    ></button>
+  </FlexboxLayout>
+
+  <StackLayout>
+    <ListView [items]="myLists">
+      <ng-template let-todoList="item">
+        <ns-todo-list
+          [todoList]="todoList"
+          (addTodoEvent)="addItemToTodoList($event.listName, $event.todoName)"
+          (deleteTodoEvent)="deleteItemFromTodoList($event.listName, $event.todoName)"
+          (editTodoEvent)="editItemOfTodoList($event.listName, $event.todoName, $event.newName)"
+          (completeTodoEvent)="markTodoAsCompleteIncomplete($event.listName, $event.todoName, $event.isComplete)"
+        ></ns-todo-list>
+      </ng-template>
+    </ListView>
+  </StackLayout>
+
+</StackLayout>

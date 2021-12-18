@@ -1,31 +1,3 @@
-
-<div class="div-main">
-
-  <div class="error-section">
-    <h4>{{errorMessage}}</h4>
-  </div>
-
-  <div class="div-add-list">
-
-    <input class="my-input" [(ngModel)]="newTodoList">
-    <button class="my-button" (click)="addNewListOnClick()">Agregar una Lista</button>
-
-  </div>
-
-  <hr class="divider">
-
-  <div class="div-lists">
-    <div class="list" *ngFor="let todoList of myLists">
-      <app-todo-list [todoList]="todoList"
-      (addTodoEvent)="addItemToTodoList($event.listName, $event.todoName)"
-      (deleteTodoEvent)="deleteItemFromTodoList($event.listName, $event.todoName)"
-      (editTodoEvent)="editItemOfTodoList($event.listName, $event.todoName, $event.newName)"
-      (completeTodoEvent)="markTodoAsCompleteIncomplete($event.listName, $event.todoName, $event.isComplete)"></app-todo-list>
-    </div>
-  </div>
-
-
-</div>
-
-
-<router-outlet></router-outlet>
+<GridLayout>
+  <page-router-outlet></page-router-outlet>
+</GridLayout>
